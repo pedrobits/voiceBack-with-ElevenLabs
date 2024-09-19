@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import gerarAudioPeloTexto from './modules/gerarAudioPeloTexto';
+(async () => {
   try {
     const texto = "Olá, este é apenas um teste de uma pessoa falando em uma festa.";
     const backgroundOption = "party_background"; 
