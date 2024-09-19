@@ -1,6 +1,6 @@
 # VoiceBack
 
-VoiceBack é uma ferramenta que transforma texto em áudio natural utilizando a API do ElevenLabs e o aprimora com uma faixa de fundo através do FFmpeg. Ideal para criar conteúdos de áudio que soam mais realistas e envolventes, o projeto ilustra um fluxo eficiente de processamento de áudio, desde a geração inicial até a mistura final com o áudio de fundo.
+VoiceBack é uma ferramenta que desenvolvi para transformar texto em áudio natural usando a API do ElevenLabs e aprimorar o resultado com uma faixa de fundo através do FFmpeg. Este projeto é uma demonstração de como criar conteúdos de áudio mais "realistas". Aprendi a implementar esse fluxo eficiente de processamento de áudio, desde a geração até a mistura final, e planejo aplicar esse conhecimento em futuras tarefas e projetos para melhorar a qualidade e a naturalidade dos áudios produzidos.
 ## Descrição
 
 Este projeto realiza as seguintes tarefas:
