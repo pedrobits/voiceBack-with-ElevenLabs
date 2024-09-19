@@ -1,34 +1,27 @@
-import fs from 'node:fs';
 import path from 'node:path';
+import { PassThrough } from 'node:stream';
 import gerarAudioPeloTexto from './modules/gerarAudioPeloTexto';
 import adicionarBackgroundAudio from './modules/adicionarBackgroundAudio';
 import backgroundAudioOptions from './json/backgroundAudioOptions';
 
 (async () => {
   try {
-    const texto = "Olá, este é apenas um teste de uma pessoa falando em uma festa.";
-    const backgroundOption = "party_background"; 
+    const texto = "Olá, tudo bem? Acho que sim, né?";
+    const backgroundOption = "party_background";
     const audioStream = await gerarAudioPeloTexto(texto);
 
-    // Salva o áudio gerado como um arquivo temporário
-    const caminhoAudioGeradoElevenLabs = path.resolve(__dirname, './ElevenLabs_Audios/elevenlabs_speech.mp3');
-    const speechWriteStream = fs.createWriteStream(caminhoAudioGeradoElevenLabs);
+    const speechStream = new PassThrough();
+    await audioStream.pipe(speechStream);
 
-    audioStream.pipe(speechWriteStream);
+    console.log('Áudio do ElevenLabs salvo com sucesso!');
 
-    speechWriteStream.on('finish', () => {
-      console.log('Áudio do ElevenLabs salvo com sucesso!');
+    const backgroundAudioPath = path.resolve(__dirname, `./audios/${backgroundAudioOptions[backgroundOption]}`);
+    const caminhoAudioEditado = path.resolve(__dirname, './out/final_output.mp3');
+    const volumeBackground = "0.1"
 
-      // Resolve o caminho completo para o áudio de fundo selecionado
-      const backgroundAudioPath = path.resolve(__dirname, `./audios/${backgroundAudioOptions[backgroundOption]}`);
+    // Agora mistura com o áudio de fundo
+    adicionarBackgroundAudio(speechStream, backgroundAudioPath, volumeBackground, caminhoAudioEditado);
 
-      // Agora mistura com o áudio de fundo
-      adicionarBackgroundAudio(caminhoAudioGeradoElevenLabs, backgroundAudioPath);
-    });
-
-    speechWriteStream.on('error', (err) => {
-      console.error('Erro ao salvar o áudio do ElevenLabs:', err);
-    });
   } catch (error) {
     console.error('Ocorreu um erro:', error);
   }
