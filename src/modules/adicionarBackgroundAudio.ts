@@ -1,17 +1,12 @@
 import ffmpeg from 'fluent-ffmpeg';
-import path from 'node:path';
+import { Transform } from 'node:stream';
 
-const adicionarBackgroundAudio = (caminhoAudioGeradoElevenLabs: any, backgroundOption: string, volumeBackground: string = "0.5") => {
-  const caminhoAudioEditado = path.resolve(__dirname, '../out/final_output.mp3');
-  const backgroundAudioPath = path.resolve(__dirname, backgroundOption);
-
+const adicionarBackgroundAudio = (speechAudio: Transform, backgroundAudioPath: string, volumeBackground = "0.1", caminhoAudioEditado: string) => {
   ffmpeg()
-    .input(caminhoAudioGeradoElevenLabs)  // Áudio gerado pelo ElevenLabs
-    .input(backgroundAudioPath)  // Áudio de fundo
+    .input(speechAudio)
+    .input(backgroundAudioPath)
     .complexFilter([
-      // Reduz o volume do áudio de fundo para 10%
       `[1:a]volume=${volumeBackground}[a1]`, 
-      // Mistura o áudio principal (fala) com o áudio de fundo reduzido
       '[0:a][a1]amix=inputs=2:duration=shortest'
     ])
     .output(caminhoAudioEditado)
