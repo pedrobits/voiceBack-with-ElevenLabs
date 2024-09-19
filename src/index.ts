@@ -1,6 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import gerarAudioPeloTexto from './modules/gerarAudioPeloTexto';
+import adicionarBackgroundAudio from './modules/adicionarBackgroundAudio';
+import backgroundAudioOptions from './json/backgroundAudioOptions';
+
 (async () => {
   try {
     const texto = "Olá, este é apenas um teste de uma pessoa falando em uma festa.";
@@ -19,6 +22,8 @@ import gerarAudioPeloTexto from './modules/gerarAudioPeloTexto';
       // Resolve o caminho completo para o áudio de fundo selecionado
       const backgroundAudioPath = path.resolve(__dirname, `./audios/${backgroundAudioOptions[backgroundOption]}`);
 
+      // Agora mistura com o áudio de fundo
+      adicionarBackgroundAudio(caminhoAudioGeradoElevenLabs, backgroundAudioPath);
     });
 
     speechWriteStream.on('error', (err) => {
